@@ -1,0 +1,106 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Media Downloader</title>  
+    <style>  
+        body {  
+            background-color: #e0f7fa; /* Màu nền xanh nước biển nhẹ */  
+            font-family: Arial, sans-serif;   
+            margin: 0;  
+            padding: 20px;  
+        }  
+
+        h1, h2 {  
+            color: #00796b; /* Màu xanh cho tiêu đề */  
+        }  
+
+        div.media {  
+            margin-bottom: 20px;  
+            border-radius: 15px; /* Bo góc */  
+            overflow: hidden; /* Ẩn các phần tử bị tràn ra ngoài */  
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng nhẹ */  
+            background-color: white; /* Màu nền cho container */  
+            padding: 20px;  
+            transition: transform 0.2s; /* Hiệu ứng chuyển động */  
+        }  
+
+        div.media:hover {  
+            transform: scale(1.02); /* Phóng to một chút khi hover */  
+        }  
+
+        img {  
+            max-width: 100%;  
+            height: auto;  
+            border-radius: 8px; /* Bo góc cho ảnh */  
+        }  
+
+        form {  
+            background-color: #ffffff; /* Màu nền cho form */  
+            border-radius: 10px; /* Bo góc cho form */  
+            padding: 20px;  
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bóng đổ cho form */  
+            margin-bottom: 20px; /* Khoảng cách giữa các form */  
+        }  
+
+        label {  
+            display: block; /* Đưa label thành block để dễ quản lý */  
+            margin: 10px 0 5px; /* Khoảng cách cho label */  
+        }  
+
+        input[type="text"] {  
+            width: calc(100% - 22px); /* Đảm bảo ô input chiếm toàn bộ chiều rộng */  
+            padding: 10px; /* Khoảng cách trong ô input */  
+            border: 1px solid #00796b; /* Đường viền màu xanh */  
+            border-radius: 5px; /* Bo góc cho ô input */  
+            outline: none; /* Bỏ viền khi focus */  
+            transition: border-color 0.3s; /* Hiệu ứng chuyển màu viền */  
+        }  
+
+        input[type="text"]:focus {  
+            border-color: #004d4f; /* Đổi màu viền khi focus */  
+        }  
+
+        button {  
+            background-color: #008cba; /* Màu xanh nước biển đậm */  
+            color: white; /* Màu chữ */  
+            border: none;  
+            border-radius: 8px; /* Bo góc */  
+            padding: 10px 15px;  
+            cursor: pointer;  
+            transition: background-color 0.3s, transform 0.2s; /* Hiệu ứng chuyển màu và phóng to */  
+        }  
+
+        button:hover {  
+            background-color: #005f7f; /* Màu tối hơn khi hover */  
+            transform: scale(1.05); /* Phóng to khi hover */  
+        }  
+    </style>  
+</head>  
+<body>  
+    <h1>Welcome to the Media Downloader</h1>  
+
+    <div class="media">  
+        <h2>Download Video from Facebook</h2>  
+        <form id="facebook-form" method="post" action="/download/facebook">  
+            <label for="videoUrl">Video URL:</label>  
+            <input type="text" id="videoUrl" name="videoUrl" required>  
+            <label for="cookie">Cookie (optional):</label>  
+            <input type="text" id="cookie" name="cookie">  
+            <label for="useragent">User Agent (optional):</label>  
+            <input type="text" id="useragent" name="useragent">  
+            <button type="submit">Download Video</button>  
+        </form>  
+    </div>  
+
+    <div class="media">  
+        <h2>Download Media from Instagram</h2>  
+        <form id="instagram-form" method="post" action="/download/instagram">  
+            <label for="url_media">Media URL:</label>  
+            <input type="text" id="url_media" name="url_media" required>  
+            <button type="submit">Download Media</button>  
+        </form>  
+    </div>  
+</body>  
+</html>
