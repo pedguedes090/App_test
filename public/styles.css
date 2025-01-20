@@ -1,0 +1,162 @@
+/* styles.css */
+
+/* Các biến CSS đã có */
+:root {
+    --primary-color: #1E90FF; /* Xanh dương đậm */
+    --secondary-color: #ADD8E6; /* Xanh dương nhạt */
+    --background-color: #F0F8FF; /* Nền xanh biển nhẹ */
+    --text-color: #333333; /* Màu chữ tối */
+    --button-hover-color: #1C86EE; /* Màu khi hover nút */
+}
+
+/* Reset một số thuộc tính mặc định */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Phông chữ và màu nền chung */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* Tiêu đề chính */
+h1, h2, h3 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Container chính */
+.container {
+    max-width: 900px;
+    margin: auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Thanh Navigation */
+.navbar {
+    display: flex;
+    justify-content: center;
+    background-color: var(--primary-color);
+    padding: 15px 0;
+    margin-bottom: 30px;
+    border-radius: 8px;
+}
+
+.navbar a {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 1.1em;
+    transition: color 0.3s;
+}
+
+.navbar a:hover {
+    color: var(--secondary-color);
+}
+
+/* Container cho media với Flexbox */
+.media-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--secondary-color), #ffffff);
+    transition: transform 0.3s, box-shadow 0.3s;
+    /* Điều chỉnh kích thước tự động theo nội dung */
+    width: auto;
+    max-width: 100%;
+}
+
+.media-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Các video và ảnh */
+video, img {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+/* Nút tải xuống với Flexbox để căn giữa icon và văn bản */
+a.download-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 25px;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+a.download-btn:hover {
+    background-color: var(--button-hover-color);
+    transform: scale(1.05);
+}
+
+/* Icon trong nút tải xuống */
+a.download-btn i {
+    margin-right: 8px;
+}
+
+/* Caption */
+.caption {
+    font-style: italic;
+    color: #7f8c8d;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Ảnh Bìa */
+.header-image {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .media-container {
+        padding: 15px;
+    }
+
+    a.download-btn {
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    a.download-btn {
+        padding: 8px 16px;
+    }
+}

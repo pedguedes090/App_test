@@ -13,6 +13,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));  
 
 // Endpoint để tải video từ Facebook  
+// index.js
+
 app.post('/download/facebook', async (req, res) => {  
     const { videoUrl, cookie, useragent } = req.body;  
     try {  
@@ -28,24 +30,18 @@ app.post('/download/facebook', async (req, res) => {
                 <meta charset="UTF-8">  
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">  
                 <title>${videoInfo.title}</title>  
-                <style>  
-                    body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; background-color: #e0f7fa; color: #333; padding: 20px; }  
-                    h1 { color: #00796b; text-align: center; }  
-                    .video-container { text-align: center; margin-top: 20px; border: 1px solid #00796b; border-radius: 8px; padding: 10px; background: white; }  
-                    video { width: 100%; height: auto; border-radius: 8px; }  
-                    a { display: inline-block; margin-top: 10px; padding: 10px 15px; background: #00796b; color: white; text-decoration: none; border-radius: 5px; transition: background 0.3s; }  
-                    a:hover { background: #004d40; }  
-                </style>  
+                <!-- Liên kết tới tập tin CSS ngoài -->  
+                <link rel="stylesheet" href="/styles.css">  
             </head>  
             <body>  
                 <h1>${videoInfo.title}</h1>  
-                <div class="video-container">  
+                <div class="media-container">  
                     <video controls>  
                         <source src="/downloads/${filename}" type="video/mp4">  
                         Your browser does not support the video tag.  
                     </video>  
                     <br>  
-                    <a href="/downloads/${filename}" download>Download HD Video</a>  
+                    <a href="/downloads/${filename}" class="download-btn" download>Download HD Video</a>  
                 </div>  
             </body>  
             </html>  
@@ -54,7 +50,7 @@ app.post('/download/facebook', async (req, res) => {
         console.error(error);  
         res.status(400).json({ error: error.message || "Unable to fetch video information" });  
     }  
-});  
+});
 
 // Endpoint để tải video hoặc ảnh từ Instagram  
 app.post('/download/instagram', async (req, res) => {  
@@ -69,15 +65,8 @@ app.post('/download/instagram', async (req, res) => {
                 <meta charset="UTF-8">  
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">  
                 <title>Instagram Media Download</title>  
-                <style>  
-                    body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; background-color: #e0f7fa; color: #333; padding: 20px; }  
-                    h1, h2, h3 { color: #00796b; }  
-                    .media-container { margin-bottom: 20px; border: 1px solid #00796b; border-radius: 8px; padding: 10px; background: white; }  
-                    img { max-width: 100%; height: auto; border-radius: 8px; }  
-                    video { width: 100%; height: auto; border-radius: 8px; }  
-                    a { display: inline-block; margin-top: 10px; padding: 10px 15px; background: #00796b; color: white; text-decoration: none; border-radius: 5px; transition: background 0.3s; }  
-                    a:hover { background: #004d40; }  
-                </style>  
+                <!-- Liên kết tới tập tin CSS ngoài -->  
+                <link rel="stylesheet" href="/styles.css">  
             </head>  
             <body>  
                 <h1>${mediaInfo.post_info.owner_fullname}'s Media</h1>  
@@ -101,7 +90,7 @@ app.post('/download/instagram', async (req, res) => {
                             Your browser does not support the video tag.  
                         </video>  
                         <br />  
-                        <a href="/downloads/${fileName}" download>Download Video</a>  
+                        <a href="/downloads/${fileName}" class="download-btn" download>Download Video</a>  
                     </div>  
                 `;  
             });  
@@ -120,7 +109,7 @@ app.post('/download/instagram', async (req, res) => {
                     <div class="media-container">  
                         <img src="/downloads/${fileName}" alt="Instagram Image">  
                         <br />  
-                        <a href="/downloads/${fileName}" download>Download Image</a>  
+                        <a href="/downloads/${fileName}" class="download-btn" download>Download Image</a>  
                     </div>  
                 `;  
             });  
@@ -140,14 +129,36 @@ app.post('/download/instagram', async (req, res) => {
 });  
 
 // Route tải video đã tải về  
-app.get('/downloads/:filename', (req, res) => {  
+app.get('/downloads/:filename', (req, res, next) => {  
     const filePath = path.join(__dirname, 'downloads', req.params.filename);  
-    res.download(filePath, (err) => {  
+
+    // Check if the file exists before attempting to download
+    fs.access(filePath, fs.constants.F_OK, (err) => {  
         if (err) {  
-            res.status(404).send('File not found');  
+            // File does not exist
+            return res.status(404).send('File not found');  
         }  
+        
+        res.download(filePath, (err) => {  
+            if (err) {  
+                console.error(err);
+                // If headers haven't been sent, send a 500 error
+                if (!res.headersSent) {  
+                    return res.status(500).send('Error downloading file');  
+                }
+                // If headers have been sent, delegate to the default Express error handler
+                return next(err);  
+            }  
+            // File sent successfully
+        });  
     });  
 });  
+
+// Centralized Error Handling Middleware
+app.use((err, req, res, next) => {  
+    console.error(err.stack);  
+    res.status(500).send('Something went wrong!');  
+});
 
 // Chạy server  
 app.listen(PORT, () => {  
